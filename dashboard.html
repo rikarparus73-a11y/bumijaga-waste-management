@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BumiJaga — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#2D6A4F;--sec:#52B788;--acc:#74C69D;--bg:#F0FDF4;--dar:#1B4332;--gra:#6B7280;--lgr:#E5E7EB;--whi:#fff;--ora:#F97316;--red:#EF4444;--yel:#FBD85F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dar);overflow-x:hidden}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:240px;flex-shrink:0;background:var(--pri);display:flex;flex-direction:column;padding-top:16px;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.sb-ico{width:44px;height:44px;background:rgba(255,255,255,.14);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--whi);font-weight:700;font-size:15px;flex-shrink:0}
+.sb-name{color:var(--whi);font-weight:700;font-size:15px}
+.nav-it{padding:11px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;border-radius:10px;margin:2px 12px;font-size:14px;color:rgba(190,225,210,.9);text-decoration:none;transition:all .18s}
+.nav-it.active{background:rgba(82,183,136,.25);color:var(--whi);font-weight:500}
+.nav-it:hover:not(.active){background:rgba(255,255,255,.07)}
+.sb-spc{flex:1}
+.sb-out{padding:11px 20px;margin:0 12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-radius:10px;font-size:14px;color:rgba(170,210,190,.8);text-decoration:none;transition:all .18s}
+.sb-out:hover{background:rgba(255,255,255,.07)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
+.sidebar-overlay.open{display:block}
+
+/* ── MAIN ── */
+.main{flex:1;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--whi);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lgr);position:sticky;top:0;z-index:50}
+.tb-left{display:flex;align-items:center;gap:16px}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--dar);border-radius:2px}
+.tb-title{font-size:18px;font-weight:700;color:var(--dar)}
+.tb-sub{font-size:12px;color:var(--gra);margin-top:2px}
+.tb-right{display:flex;align-items:center;gap:12px}
+.tb-search{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:8px 14px;width:220px;border:1px solid var(--lgr)}
+.tb-search input{border:none;background:transparent;font-size:13px;font-family:'Poppins',sans-serif;color:var(--dar);outline:none;width:100%}
+.tb-search input::placeholder{color:var(--gra)}
+.tb-av{width:38px;height:38px;background:var(--sec);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--whi);font-weight:700;font-size:14px;cursor:pointer}
+
+/* ── CONTENT ── */
+.content{padding:24px 28px;flex:1}
+
+/* ── STAT CARDS ── */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--whi);border-radius:14px;padding:20px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:14px 0 0 14px}
+.stat-card:nth-child(1)::before{background:var(--pri)}
+.stat-card:nth-child(2)::before{background:var(--sec)}
+.stat-card:nth-child(3)::before{background:var(--ora)}
+.stat-card:nth-child(4)::before{background:var(--acc)}
+.sc-lbl{font-size:11px;color:var(--gra);padding-left:8px;margin-bottom:6px}
+.sc-val{font-size:28px;font-weight:700;color:var(--dar);padding-left:8px;line-height:1}
+.sc-unit{font-size:11px;color:var(--gra);padding-left:8px;margin-top:4px}
+.sc-ch{font-size:11px;color:var(--sec);padding-left:8px;margin-top:8px}
+
+/* ── CRUD SECTION ── */
+.crud-section{background:var(--whi);border-radius:14px;padding:24px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.crud-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.crud-title{font-size:16px;font-weight:700;color:var(--dar)}
+.crud-title span{font-size:12px;font-weight:500;color:var(--gra);margin-left:8px}
+.btn-add{padding:9px 18px;background:var(--pri);color:var(--whi);border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s}
+.btn-add:hover{background:var(--dar)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:500px}
+thead th{background:var(--bg);padding:10px 14px;font-size:12px;font-weight:600;color:var(--dar);text-align:left}
+thead th:first-child{border-radius:8px 0 0 8px}
+thead th:last-child{border-radius:0 8px 8px 0;text-align:center}
+tbody td{padding:13px 14px;font-size:13px;color:var(--dar);border-bottom:1px solid #F3F4F6}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#FAFFFE}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.badge-aktif{background:rgba(82,183,136,.15);color:var(--sec)}
+.badge-nonaktif{background:rgba(239,68,68,.12);color:var(--red)}
+.badge-selesai{background:rgba(82,183,136,.15);color:var(--sec)}
+.badge-proses{background:rgba(249,115,22,.12);color:var(--ora)}
+.badge-menunggu{background:rgba(234,179,8,.15);color:#CA8A04}
+.td-act{display:flex;justify-content:center;gap:8px}
+.btn-edit{padding:5px 12px;background:rgba(82,183,136,.15);color:var(--sec);border:none;border-radius:6px;font-size:12px;font-weight:500;font-family:'Poppins',sans-serif;cursor:pointer;transition:all .2s}
+.btn-edit:hover{background:var(--sec);color:var(--whi)}
+.btn-del{padding:5px 12px;background:rgba(239,68,68,.1);color:var(--red);border:none;border-radius:6px;font-size:12px;font-weight:500;font-family:'Poppins',sans-serif;cursor:pointer;transition:all .2s}
+.btn-del:hover{background:var(--red);color:var(--whi)}
+.empty-row td{text-align:center;color:var(--gra);font-size:13px;padding:32px}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--whi);border-radius:16px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-head{padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:18px;font-weight:700;color:var(--dar)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gra);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:background .2s}
+.modal-close:hover{background:var(--bg)}
+.modal-body{padding:20px 24px}
+.mfg{margin-bottom:16px}
+.mfl{display:block;font-size:13px;font-weight:500;color:var(--dar);margin-bottom:6px}
+.mfi{width:100%;padding:11px 14px;border:1px solid var(--lgr);border-radius:10px;font-size:14px;font-family:'Poppins',sans-serif;color:var(--dar);outline:none;background:var(--bg);transition:border-color .2s}
+.mfi:focus{border-color:var(--sec);background:var(--whi)}
+.mfi::placeholder{color:#9CA3AF}
+select.mfi{cursor:pointer}
+.modal-foot{padding:0 24px 24px;display:flex;gap:10px;justify-content:flex-end}
+.btn-cancel{padding:10px 20px;background:var(--bg);color:var(--gra);border:1px solid var(--lgr);border-radius:8px;font-size:14px;font-weight:500;font-family:'Poppins',sans-serif;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{background:var(--lgr)}
+.btn-save{padding:10px 24px;background:var(--pri);color:var(--whi);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;transition:background .2s}
+.btn-save:hover{background:var(--dar)}
+
+/* Confirm delete modal */
+.confirm-modal{background:var(--whi);border-radius:16px;width:100%;max-width:360px;padding:32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.confirm-ico{font-size:48px;margin-bottom:16px}
+.confirm-title{font-size:18px;font-weight:700;color:var(--dar);margin-bottom:8px}
+.confirm-sub{font-size:14px;color:var(--gra);margin-bottom:24px}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+.btn-confirm-cancel{padding:10px 24px;background:var(--bg);color:var(--gra);border:1px solid var(--lgr);border-radius:8px;font-size:14px;font-weight:500;font-family:'Poppins',sans-serif;cursor:pointer}
+.btn-confirm-del{padding:10px 24px;background:var(--red);color:var(--whi);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;transition:opacity .2s}
+.btn-confirm-del:hover{opacity:.88}
+
+/* ═══════════════════════════════
+   RESPONSIVE — max-width: 768px
+═══════════════════════════════ */
+@media (max-width: 768px) {
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .hamburger{display:flex}
+  .tb-search{display:none}
+  .tb-title{font-size:16px}
+
+  .stat-row{grid-template-columns:repeat(2,1fr);gap:12px}
+  .sc-val{font-size:22px}
+
+  .content{padding:16px}
+  .crud-section{padding:16px}
+  .crud-head{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-ico">BJ</div>
+    <span class="sb-name">BumiJaga</span>
+  </div>
+  <a href="dashboard.html" class="nav-it active"><span>🏠</span> Dashboard</a>
+  <a href="#jenis" class="nav-it" onclick="closeSidebar()"><span>🗂️</span> Jenis Limbah</a>
+  <a href="#laporan" class="nav-it" onclick="closeSidebar()"><span>📝</span> Laporan Limbah</a>
+  <a href="#" class="nav-it"><span>🗺️</span> Peta Limbah</a>
+  <a href="#" class="nav-it"><span>📚</span> Edukasi</a>
+  <a href="#" class="nav-it"><span>⚙️</span> Pengaturan</a>
+  <div class="sb-spc"></div>
+  <a href="login.html" class="sb-out"><span>🚪</span> Keluar</a>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="hamburger" onclick="openSidebar()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div>
+        <div class="tb-title">Dashboard Utama</div>
+        <div class="tb-sub">Selamat datang, Jesen</div>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><span>🔍</span><input type="text" placeholder="Cari data..."></div>
+      <div class="tb-av">J</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Stat Cards -->
+    <div class="stat-row">
+      <div class="stat-card"><div class="sc-lbl">Total Limbah</div><div class="sc-val" id="totalLimbah">0</div><div class="sc-unit">laporan</div><div class="sc-ch">Data aktif</div></div>
+      <div class="stat-card"><div class="sc-lbl">Jenis Limbah</div><div class="sc-val" id="totalJenis">0</div><div class="sc-unit">kategori</div><div class="sc-ch">Terdaftar</div></div>
+      <div class="stat-card"><div class="sc-lbl">Laporan Selesai</div><div class="sc-val" id="totalSelesai">0</div><div class="sc-unit">laporan</div><div class="sc-ch">Berhasil ditangani</div></div>
+      <div class="stat-card"><div class="sc-lbl">Menunggu Respons</div><div class="sc-val" id="totalMenunggu">0</div><div class="sc-unit">laporan</div><div class="sc-ch">Perlu tindak lanjut</div></div>
+    </div>
+
+    <!-- CRUD 1: Jenis Limbah -->
+    <div class="crud-section" id="jenis">
+      <div class="crud-head">
+        <div>
+          <div class="crud-title">Jenis Limbah <span id="jenisCount"></span></div>
+        </div>
+        <button class="btn-add" onclick="openJenisModal()">+ Tambah Jenis</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Jenis</th>
+              <th>Deskripsi</th>
+              <th>Contoh</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="jenisTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CRUD 2: Laporan Limbah -->
+    <div class="crud-section" id="laporan">
+      <div class="crud-head">
+        <div>
+          <div class="crud-title">Laporan Limbah <span id="laporanCount"></span></div>
+        </div>
+        <button class="btn-add" onclick="openLaporanModal()">+ Tambah Laporan</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Jenis Limbah</th>
+              <th>Lokasi</th>
+              <th>Volume (kg)</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="laporanTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- MODAL: Jenis Limbah -->
+<div class="overlay" id="jenisOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="jenisMTitle">Tambah Jenis Limbah</div>
+      <button class="modal-close" onclick="closeJenisModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="jenisId">
+      <div class="mfg">
+        <label class="mfl">Nama Jenis <span style="color:var(--red)">*</span></label>
+        <input class="mfi" type="text" id="jenisNama" placeholder="Contoh: Organik, Plastik, B3...">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Deskripsi</label>
+        <input class="mfi" type="text" id="jenisDeskripsi" placeholder="Deskripsi singkat jenis limbah">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Contoh Limbah</label>
+        <input class="mfi" type="text" id="jenisContoh" placeholder="Contoh: sisa makanan, botol plastik...">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Status</label>
+        <select class="mfi" id="jenisStatus">
+          <option value="Aktif">Aktif</option>
+          <option value="Tidak Aktif">Tidak Aktif</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeJenisModal()">Batal</button>
+      <button class="btn-save" onclick="saveJenis()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Laporan Limbah -->
+<div class="overlay" id="laporanOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="laporanMTitle">Tambah Laporan Limbah</div>
+      <button class="modal-close" onclick="closeLaporanModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="laporanId">
+      <div class="mfg">
+        <label class="mfl">Tanggal <span style="color:var(--red)">*</span></label>
+        <input class="mfi" type="date" id="laporanTanggal">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Jenis Limbah <span style="color:var(--red)">*</span></label>
+        <select class="mfi" id="laporanJenis"></select>
+      </div>
+      <div class="mfg">
+        <label class="mfl">Lokasi <span style="color:var(--red)">*</span></label>
+        <input class="mfi" type="text" id="laporanLokasi" placeholder="Kelurahan / Kecamatan, Kota">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Volume (kg) <span style="color:var(--red)">*</span></label>
+        <input class="mfi" type="number" id="laporanVolume" placeholder="Contoh: 120" min="0">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Pelapor</label>
+        <input class="mfi" type="text" id="laporanPelapor" placeholder="Nama pelapor">
+      </div>
+      <div class="mfg">
+        <label class="mfl">Status</label>
+        <select class="mfi" id="laporanStatus">
+          <option value="Menunggu">Menunggu</option>
+          <option value="Proses">Proses</option>
+          <option value="Selesai">Selesai</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeLaporanModal()">Batal</button>
+      <button class="btn-save" onclick="saveLaporan()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Konfirmasi Hapus -->
+<div class="overlay" id="deleteOverlay">
+  <div class="confirm-modal">
+    <div class="confirm-ico">🗑️</div>
+    <div class="confirm-title">Hapus Data?</div>
+    <div class="confirm-sub" id="deleteMsg">Data yang dihapus tidak dapat dikembalikan.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeDelete()">Batal</button>
+      <button class="btn-confirm-del" onclick="confirmDelete()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────
+let jenisData = [
+  { id: 1, nama: 'Organik',  deskripsi: 'Limbah yang berasal dari makhluk hidup', contoh: 'Sisa makanan, daun kering, kayu', status: 'Aktif' },
+  { id: 2, nama: 'Plastik',  deskripsi: 'Limbah berbahan dasar plastik sintetis',  contoh: 'Botol, kantong plastik, sedotan',  status: 'Aktif' },
+  { id: 3, nama: 'Kertas',   deskripsi: 'Limbah berbahan dasar kertas dan karton', contoh: 'Kardus, koran, majalah',            status: 'Aktif' },
+  { id: 4, nama: 'Logam',    deskripsi: 'Limbah berupa besi, aluminium, dan sejenisnya', contoh: 'Kaleng, kawat, besi tua',     status: 'Aktif' },
+  { id: 5, nama: 'B3',       deskripsi: 'Bahan Berbahaya dan Beracun',             contoh: 'Baterai, oli bekas, cat',           status: 'Aktif' },
+];
+
+let laporanData = [
+  { id: 1, tanggal: '2025-09-24', jenis: 'Organik', lokasi: 'Kel. Bareng, Malang',         volume: 120, pelapor: 'Budi S.',   status: 'Selesai'  },
+  { id: 2, tanggal: '2025-09-23', jenis: 'Plastik', lokasi: 'Kel. Lowokwaru, Malang',      volume: 45,  pelapor: 'Siti R.',   status: 'Proses'   },
+  { id: 3, tanggal: '2025-09-22', jenis: 'B3',      lokasi: 'Kel. Blimbing, Malang',       volume: 8,   pelapor: 'Ahmad D.',  status: 'Menunggu' },
+  { id: 4, tanggal: '2025-09-20', jenis: 'Kertas',  lokasi: 'Kel. Kedungkandang, Malang',  volume: 200, pelapor: 'Lina F.',   status: 'Selesai'  },
+  { id: 5, tanggal: '2025-09-19', jenis: 'Logam',   lokasi: 'Kel. Sukun, Malang',          volume: 32,  pelapor: 'Rudi P.',   status: 'Selesai'  },
+];
+
+let nextJenisId  = 6;
+let nextLaporanId = 6;
+let deleteTarget = { type: '', id: null };
+
+// ─── SIDEBAR ─────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sbOverlay').classList.add('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('open');
+}
+
+// ─── STATS ───────────────────────────────────────
+function updateStats() {
+  document.getElementById('totalLimbah').textContent   = laporanData.length;
+  document.getElementById('totalJenis').textContent    = jenisData.filter(j => j.status === 'Aktif').length;
+  document.getElementById('totalSelesai').textContent  = laporanData.filter(l => l.status === 'Selesai').length;
+  document.getElementById('totalMenunggu').textContent = laporanData.filter(l => l.status === 'Menunggu').length;
+}
+
+// ─── RENDER JENIS ────────────────────────────────
+function renderJenis() {
+  const tbody = document.getElementById('jenisTbody');
+  document.getElementById('jenisCount').textContent = '(' + jenisData.length + ' data)';
+  if (jenisData.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Belum ada data jenis limbah. Klik "Tambah Jenis" untuk menambahkan.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = jenisData.map((j, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td><strong>${j.nama}</strong></td>
+      <td>${j.deskripsi}</td>
+      <td style="color:var(--gra);font-size:12px">${j.contoh}</td>
+      <td><span class="badge ${j.status === 'Aktif' ? 'badge-aktif' : 'badge-nonaktif'}">${j.status}</span></td>
+      <td>
+        <div class="td-act">
+          <button class="btn-edit" onclick="openJenisModal(${j.id})">✏️ Edit</button>
+          <button class="btn-del"  onclick="showDelete('jenis', ${j.id}, '${j.nama}')">🗑️ Hapus</button>
+        </div>
+      </td>
+    </tr>`).join('');
+  updateStats();
+}
+
+// ─── MODAL JENIS ─────────────────────────────────
+function openJenisModal(id = null) {
+  document.getElementById('jenisOverlay').classList.add('open');
+  if (id) {
+    const j = jenisData.find(x => x.id === id);
+    document.getElementById('jenisMTitle').textContent = 'Edit Jenis Limbah';
+    document.getElementById('jenisId').value       = j.id;
+    document.getElementById('jenisNama').value     = j.nama;
+    document.getElementById('jenisDeskripsi').value= j.deskripsi;
+    document.getElementById('jenisContoh').value   = j.contoh;
+    document.getElementById('jenisStatus').value   = j.status;
+  } else {
+    document.getElementById('jenisMTitle').textContent = 'Tambah Jenis Limbah';
+    document.getElementById('jenisId').value       = '';
+    document.getElementById('jenisNama').value     = '';
+    document.getElementById('jenisDeskripsi').value= '';
+    document.getElementById('jenisContoh').value   = '';
+    document.getElementById('jenisStatus').value   = 'Aktif';
+  }
+}
+function closeJenisModal() { document.getElementById('jenisOverlay').classList.remove('open'); }
+
+function saveJenis() {
+  const nama = document.getElementById('jenisNama').value.trim();
+  if (!nama) { alert('Nama jenis wajib diisi.'); return; }
+  const id = document.getElementById('jenisId').value;
+  const obj = {
+    id:          id ? parseInt(id) : nextJenisId++,
+    nama,
+    deskripsi:   document.getElementById('jenisDeskripsi').value.trim(),
+    contoh:      document.getElementById('jenisContoh').value.trim(),
+    status:      document.getElementById('jenisStatus').value,
+  };
+  if (id) {
+    const idx = jenisData.findIndex(j => j.id === parseInt(id));
+    jenisData[idx] = obj;
+  } else {
+    jenisData.push(obj);
+  }
+  closeJenisModal();
+  renderJenis();
+  populateLaporanJenisOptions();
+}
+
+// ─── RENDER LAPORAN ───────────────────────────────
+function renderLaporan() {
+  const tbody = document.getElementById('laporanTbody');
+  document.getElementById('laporanCount').textContent = '(' + laporanData.length + ' data)';
+  if (laporanData.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Belum ada laporan. Klik "Tambah Laporan" untuk menambahkan.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = laporanData.map((l, i) => {
+    const badgeClass = l.status === 'Selesai' ? 'badge-selesai' : l.status === 'Proses' ? 'badge-proses' : 'badge-menunggu';
+    return `<tr>
+      <td>${i + 1}</td>
+      <td>${formatDate(l.tanggal)}</td>
+      <td>${l.jenis}</td>
+      <td>${l.lokasi}</td>
+      <td style="font-weight:600">${l.volume} kg</td>
+      <td><span class="badge ${badgeClass}">${l.status}</span></td>
+      <td>
+        <div class="td-act">
+          <button class="btn-edit" onclick="openLaporanModal(${l.id})">✏️ Edit</button>
+          <button class="btn-del"  onclick="showDelete('laporan', ${l.id}, 'laporan #${l.id}')">🗑️ Hapus</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  updateStats();
+}
+
+function formatDate(d) {
+  if (!d) return '-';
+  const [y, m, day] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+// ─── MODAL LAPORAN ────────────────────────────────
+function populateLaporanJenisOptions(selected = '') {
+  const sel = document.getElementById('laporanJenis');
+  const aktif = jenisData.filter(j => j.status === 'Aktif');
+  sel.innerHTML = aktif.map(j => `<option value="${j.nama}" ${j.nama === selected ? 'selected' : ''}>${j.nama}</option>`).join('');
+}
+
+function openLaporanModal(id = null) {
+  document.getElementById('laporanOverlay').classList.add('open');
+  if (id) {
+    const l = laporanData.find(x => x.id === id);
+    document.getElementById('laporanMTitle').textContent = 'Edit Laporan Limbah';
+    document.getElementById('laporanId').value       = l.id;
+    document.getElementById('laporanTanggal').value  = l.tanggal;
+    document.getElementById('laporanLokasi').value   = l.lokasi;
+    document.getElementById('laporanVolume').value   = l.volume;
+    document.getElementById('laporanPelapor').value  = l.pelapor || '';
+    document.getElementById('laporanStatus').value   = l.status;
+    populateLaporanJenisOptions(l.jenis);
+  } else {
+    document.getElementById('laporanMTitle').textContent = 'Tambah Laporan Limbah';
+    document.getElementById('laporanId').value       = '';
+    document.getElementById('laporanTanggal').value  = new Date().toISOString().split('T')[0];
+    document.getElementById('laporanLokasi').value   = '';
+    document.getElementById('laporanVolume').value   = '';
+    document.getElementById('laporanPelapor').value  = '';
+    document.getElementById('laporanStatus').value   = 'Menunggu';
+    populateLaporanJenisOptions();
+  }
+}
+function closeLaporanModal() { document.getElementById('laporanOverlay').classList.remove('open'); }
+
+function saveLaporan() {
+  const tanggal = document.getElementById('laporanTanggal').value;
+  const jenis   = document.getElementById('laporanJenis').value;
+  const lokasi  = document.getElementById('laporanLokasi').value.trim();
+  const volume  = document.getElementById('laporanVolume').value;
+  if (!tanggal || !jenis || !lokasi || !volume) { alert('Tanggal, jenis, lokasi, dan volume wajib diisi.'); return; }
+  const id = document.getElementById('laporanId').value;
+  const obj = {
+    id:      id ? parseInt(id) : nextLaporanId++,
+    tanggal,
+    jenis,
+    lokasi,
+    volume:  parseInt(volume),
+    pelapor: document.getElementById('laporanPelapor').value.trim(),
+    status:  document.getElementById('laporanStatus').value,
+  };
+  if (id) {
+    const idx = laporanData.findIndex(l => l.id === parseInt(id));
+    laporanData[idx] = obj;
+  } else {
+    laporanData.push(obj);
+  }
+  closeLaporanModal();
+  renderLaporan();
+}
+
+// ─── DELETE ──────────────────────────────────────
+function showDelete(type, id, label) {
+  deleteTarget = { type, id };
+  document.getElementById('deleteMsg').textContent = `Data "${label}" akan dihapus permanen.`;
+  document.getElementById('deleteOverlay').classList.add('open');
+}
+function closeDelete() {
+  document.getElementById('deleteOverlay').classList.remove('open');
+  deleteTarget = { type: '', id: null };
+}
+function confirmDelete() {
+  if (deleteTarget.type === 'jenis') {
+    jenisData = jenisData.filter(j => j.id !== deleteTarget.id);
+    renderJenis();
+    populateLaporanJenisOptions();
+  } else if (deleteTarget.type === 'laporan') {
+    laporanData = laporanData.filter(l => l.id !== deleteTarget.id);
+    renderLaporan();
+  }
+  closeDelete();
+}
+
+// ─── CLOSE OVERLAY ON BG CLICK ───────────────────
+document.getElementById('jenisOverlay').addEventListener('click', function(e) { if (e.target === this) closeJenisModal(); });
+document.getElementById('laporanOverlay').addEventListener('click', function(e) { if (e.target === this) closeLaporanModal(); });
+document.getElementById('deleteOverlay').addEventListener('click', function(e) { if (e.target === this) closeDelete(); });
+
+// ─── INIT ─────────────────────────────────────────
+renderJenis();
+renderLaporan();
+populateLaporanJenisOptions();
+</script>
+</body>
+</html>

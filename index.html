@@ -1,192 +1,162 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BumiJaga — Beranda</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#2D6A4F;--sec:#52B788;--acc:#74C69D;--bg:#F0FDF4;--dar:#1B4332;--gra:#6B7280;--lgr:#E5E7EB;--yel:#FBD85F;--whi:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dar)}
 
-    <title>Form Pemesanan</title>
+/* ── NAV ── */
+.nav{background:var(--whi);padding:0 56px;height:70px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.06);position:sticky;top:0;z-index:200}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-icon{width:36px;height:36px;background:var(--pri);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--whi);font-weight:700;font-size:13px;flex-shrink:0}
+.nav-name{font-weight:700;font-size:20px;color:var(--pri)}
+.nav-links{display:flex;gap:36px}
+.nav-links a{text-decoration:none;color:var(--dar);font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--sec)}
+.nav-act{display:flex;gap:10px;align-items:center}
+.btn-out{padding:8px 20px;border:1.5px solid var(--pri);background:transparent;color:var(--pri);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;transition:all .2s}
+.btn-out:hover{background:var(--pri);color:var(--whi)}
+.btn-fil{padding:8px 20px;background:var(--pri);color:var(--whi);border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;transition:background .2s}
+.btn-fil:hover{background:var(--dar)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--dar);border-radius:2px;transition:all .3s}
+.nav-mobile{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
+.nav-mobile.open{display:block}
+.nav-mobile-menu{background:var(--whi);width:80%;max-width:300px;height:100%;padding:32px 24px;display:flex;flex-direction:column;gap:8px}
+.nav-mobile-menu a{text-decoration:none;color:var(--dar);font-size:16px;font-weight:500;padding:12px 0;border-bottom:1px solid var(--lgr)}
+.nav-mobile-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--gra);align-self:flex-end;margin-bottom:16px}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+/* ── HERO ── */
+.hero{background:var(--pri);padding:72px 56px;position:relative;overflow:hidden;display:flex;align-items:center;gap:64px;min-height:460px}
+.hero::before{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:var(--sec);opacity:.12;top:-90px;left:-90px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:var(--acc);opacity:.1;bottom:-60px;right:200px;pointer-events:none}
+.hero-c{flex:1;z-index:1;max-width:600px}
+.hero-h{font-size:50px;font-weight:700;color:var(--whi);line-height:1.14}
+.hero-h span{color:var(--yel)}
+.hero-sub{margin-top:16px;color:rgba(255,255,255,.82);font-size:16px;line-height:1.75}
+.hero-btns{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.hbtn-p{padding:14px 28px;background:var(--yel);color:var(--dar);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;display:inline-block}
+.hbtn-s{padding:14px 28px;background:rgba(255,255,255,.1);color:var(--whi);border:1px solid rgba(255,255,255,.3);border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;display:inline-block;text-decoration:none}
+.hero-vis{flex:0 0 420px;z-index:1}
+.hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:48px 40px;text-align:center}
+.hero-card-ico{font-size:72px}
+.hero-card-txt{color:rgba(255,255,255,.75);font-size:14px;margin-top:14px;line-height:1.6}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eaf2f8;
-        }
+/* ── STATS ── */
+.statsbar{background:var(--whi);padding:20px 56px;display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--lgr)}
+.st-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.st-val{font-size:28px;font-weight:700;color:var(--pri)}
+.st-lbl{font-size:13px;color:var(--gra)}
 
-        .container {
-            width: 400px;
-            margin: 50px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
+/* ── FEATURES ── */
+.feats{padding:64px 56px;background:var(--bg)}
+.sec-title{text-align:center;font-size:24px;font-weight:700;color:var(--dar);margin-bottom:44px}
+.feats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.feat-card{background:var(--whi);border-radius:16px;padding:32px 24px;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px}
+.feat-card:nth-child(1)::before{background:var(--sec)}
+.feat-card:nth-child(2)::before{background:var(--acc)}
+.feat-card:nth-child(3)::before{background:var(--pri)}
+.feat-ico{font-size:32px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;color:var(--dar);margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--gra);line-height:1.75}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #2c3e50;
-        }
+/* ── FOOTER ── */
+footer{background:var(--dar);color:rgba(255,255,255,.65);text-align:center;padding:24px;font-size:13px}
+footer span{color:var(--sec)}
 
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #34495e;
-        }
+/* ═══════════════════════════════
+   RESPONSIVE — max-width: 768px
+═══════════════════════════════ */
+@media (max-width: 768px) {
+  .nav{padding:0 20px}
+  .nav-links,.nav-act{display:none}
+  .hamburger{display:flex}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+  .hero{flex-direction:column;padding:40px 20px;min-height:auto;gap:32px}
+  .hero-h{font-size:32px}
+  .hero-sub{font-size:14px}
+  .hero-vis{display:none}
+  .hero-btns{flex-direction:column;gap:12px}
+  .hbtn-p,.hbtn-s{text-align:center}
 
-        input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
+  .statsbar{grid-template-columns:1fr;padding:20px;gap:16px}
+  .st-item{flex-direction:row;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--lgr)}
+  .st-item:last-child{border-bottom:none}
 
-        button {
-            width: 100%;
-            padding: 11px;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
-        .hitung {
-            background: #3498db;
-        }
-
-        .hitung:hover {
-            background: #2980b9;
-        }
-
-        .hapus {
-            background: #e74c3c;
-        }
-
-        .hapus:hover {
-            background: #c0392b;
-        }
-
-        #hasil {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            line-height: 1.8;
-            color: #2c3e50;
-        }
-    </style>
-
+  .feats{padding:40px 20px}
+  .feats-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
-
 <body>
 
-    <div class="container">
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-icon">BJ</div>
+    <span class="nav-name">BumiJaga</span>
+  </a>
+  <div class="nav-links">
+    <a href="#">Beranda</a><a href="#">Fitur</a><a href="#">Tentang</a><a href="#">Kontak</a>
+  </div>
+  <div class="nav-act">
+    <a class="btn-out" href="login.html">Masuk</a>
+    <a class="btn-fil" href="register.html">Daftar Gratis</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mobileNav').classList.add('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-        <h2>Form Pemesanan Produk</h2>
+<div class="nav-mobile" id="mobileNav" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="nav-mobile-menu">
+    <button class="nav-mobile-close" onclick="document.getElementById('mobileNav').classList.remove('open')">✕</button>
+    <a href="#">Beranda</a>
+    <a href="#">Fitur</a>
+    <a href="#">Tentang</a>
+    <a href="#">Kontak</a>
+    <a href="login.html" style="color:var(--pri);font-weight:600">Masuk</a>
+    <a href="register.html" style="color:var(--pri);font-weight:600">Daftar Gratis</a>
+  </div>
+</div>
 
-        <label for="produk">Nama Produk</label>
-        <input
-            type="text"
-            id="produk"
-            placeholder="Masukkan nama produk"
-        >
-
-        <label for="jumlah">Jumlah</label>
-        <input
-            type="number"
-            id="jumlah"
-            placeholder="Masukkan jumlah"
-        >
-
-        <label for="harga">Harga Satuan</label>
-        <input
-            type="number"
-            id="harga"
-            placeholder="Masukkan harga"
-        >
-
-        <button class="hitung" onclick="proses()">
-            Hitung Total
-        </button>
-
-        <button class="hapus" onclick="hapus()">
-            Hapus
-        </button>
-
-        <div id="hasil"></div>
-
+<section class="hero">
+  <div class="hero-c">
+    <h1 class="hero-h">Kelola Limbah,<br><span>Jaga Bumi Kita</span></h1>
+    <p class="hero-sub">Platform digital terintegrasi untuk pemantauan, pelaporan, dan edukasi pengelolaan limbah lingkungan di seluruh Indonesia.</p>
+    <div class="hero-btns">
+      <a class="hbtn-p" href="register.html">Mulai Sekarang</a>
+      <a class="hbtn-s" href="#">Pelajari Lebih</a>
     </div>
+  </div>
+  <div class="hero-vis">
+    <div class="hero-card">
+      <div class="hero-card-ico">🌿</div>
+      <p class="hero-card-txt">Sistem Pengelolaan Limbah Terpadu<br>untuk Indonesia yang Lebih Bersih</p>
+    </div>
+  </div>
+</section>
 
+<div class="statsbar">
+  <div class="st-item"><div class="st-val">15.000+</div><div class="st-lbl">Ton Limbah Terkelola</div></div>
+  <div class="st-item"><div class="st-val">48.000+</div><div class="st-lbl">Pengguna Aktif</div></div>
+  <div class="st-item"><div class="st-val">120+</div><div class="st-lbl">Kota Terjangkau</div></div>
+</div>
 
-    <script>
+<section class="feats">
+  <h2 class="sec-title">Fitur Unggulan Platform</h2>
+  <div class="feats-grid">
+    <div class="feat-card"><div class="feat-ico">📊</div><h3 class="feat-title">Monitor Limbah</h3><p class="feat-desc">Pantau data limbah secara real-time di wilayah Anda. Laporan harian, mingguan, dan bulanan tersedia otomatis.</p></div>
+    <div class="feat-card"><div class="feat-ico">📚</div><h3 class="feat-title">Edukasi Hijau</h3><p class="feat-desc">Akses materi interaktif tentang pengelolaan lingkungan hidup. Tingkatkan kesadaran ekologi komunitas Anda.</p></div>
+    <div class="feat-card"><div class="feat-ico">📝</div><h3 class="feat-title">Lapor Masalah</h3><p class="feat-desc">Laporkan permasalahan limbah di sekitar Anda. Tim respon siap menindaklanjuti setiap laporan masuk.</p></div>
+  </div>
+</section>
 
-        function proses() {
-
-            // Mengambil data dari input
-            let produk = document.getElementById("produk").value;
-
-            let jumlah = Number(
-                document.getElementById("jumlah").value
-            );
-
-            let harga = Number(
-                document.getElementById("harga").value
-            );
-
-
-           
-            if (produk === "" || jumlah <= 0 || harga <= 0) {
-
-                alert("Silakan isi data dengan benar!");
-
-                return;
-            }
-
-
-            let total = jumlah * harga;
-
-
-            // Menampilkan hasil
-            document.getElementById("hasil").innerHTML =
-                "<b>Rincian Pesanan</b><br>" +
-                "Produk : " + produk + "<br>" +
-                "Jumlah : " + jumlah + "<br>" +
-                "Harga : Rp " +
-                harga.toLocaleString("id-ID") + "<br>" +
-                "<b>Total : Rp " +
-                total.toLocaleString("id-ID") +
-                "</b>";
-        }
-
-
-        function hapus() {
-
-            document.getElementById("produk").value = "";
-
-            document.getElementById("jumlah").value = "";
-
-            document.getElementById("harga").value = "";
-
-            document.getElementById("hasil").innerHTML = "";
-        }
-
-    </script>
-
+<footer><p>© 2025 <span>BumiJaga</span> — Richardo Mario Antonius Parus · NIM 2518046</p></footer>
 </body>
-
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BumiJaga — Daftar</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#2D6A4F;--sec:#52B788;--acc:#74C69D;--bg:#F0FDF4;--dar:#1B4332;--gra:#6B7280;--lgr:#E5E7EB;--whi:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex}
+.wrap{display:flex;width:100%;min-height:100vh}
+.left{flex:0 0 43%;background:var(--pri);padding:48px 52px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.left::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:var(--sec);opacity:.18;top:-80px;left:-80px;pointer-events:none}
+.left::after{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:var(--acc);opacity:.14;bottom:-60px;right:-60px;pointer-events:none}
+.brand{z-index:1}
+.brand-row{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.brand-ico{width:52px;height:52px;background:rgba(255,255,255,.18);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--whi);font-weight:700;font-size:16px;flex-shrink:0}
+.brand-name{color:var(--whi);font-size:28px;font-weight:700}
+.brand-tag{color:rgba(255,255,255,.82);font-size:18px;line-height:1.65}
+.visual{background:rgba(255,255,255,.07);border-radius:16px;padding:28px 24px;text-align:center;z-index:1;margin-top:28px}
+.visual-ico{font-size:52px}
+.visual-txt{color:rgba(255,255,255,.75);font-size:14px;margin-top:10px}
+.benefits{z-index:1;margin-top:24px}
+.benefit{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.bchk{width:22px;height:22px;background:rgba(82,183,136,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--whi);font-weight:700;flex-shrink:0}
+.btxt{color:var(--acc);font-size:14px}
+.right{flex:1;background:var(--whi);display:flex;align-items:center;justify-content:center;padding:48px 64px;overflow-y:auto}
+.form-box{width:100%;max-width:440px}
+.form-title{font-size:26px;font-weight:700;color:var(--dar)}
+.form-sub{font-size:14px;color:var(--gra);margin-top:6px;margin-bottom:24px}
+.fg{margin-bottom:15px}
+.fl{display:block;font-size:13px;font-weight:500;color:var(--dar);margin-bottom:6px}
+.fi{width:100%;padding:12px 16px;border:1px solid var(--lgr);border-radius:10px;font-size:14px;font-family:'Poppins',sans-serif;background:#F5FDF8;color:var(--dar);outline:none;transition:border-color .2s}
+.fi:focus{border-color:var(--sec)}
+.fi::placeholder{color:#9CA3AF}
+.cbrow{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
+.cbbox{width:18px;height:18px;background:var(--sec);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--whi);font-weight:700;flex-shrink:0;margin-top:2px}
+.cblbl{font-size:13px;color:var(--gra);line-height:1.6}
+.cblbl a{color:var(--pri);text-decoration:none}
+.btn-pri{width:100%;padding:13px;background:var(--pri);color:var(--whi);border:none;border-radius:12px;font-size:15px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;text-decoration:none;display:block;text-align:center;transition:background .2s}
+.btn-pri:hover{background:var(--dar)}
+.redir{text-align:center;margin-top:18px;font-size:13px;color:var(--gra)}
+.redir a{color:var(--pri);font-weight:600;text-decoration:none}
+
+/* ═══════════════════════════════
+   RESPONSIVE — max-width: 768px
+═══════════════════════════════ */
+@media (max-width: 768px) {
+  .wrap{flex-direction:column}
+  .left{flex:none;padding:28px 24px;min-height:auto}
+  .left::before,.left::after{display:none}
+  .visual,.benefits{display:none}
+  .brand-tag{font-size:14px}
+  .right{padding:28px 24px;align-items:flex-start}
+  .form-box{max-width:100%}
+  .form-title{font-size:22px}
+  .fg{margin-bottom:12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="left">
+    <div class="brand">
+      <div class="brand-row">
+        <div class="brand-ico">BJ</div>
+        <span class="brand-name">BumiJaga</span>
+      </div>
+      <p class="brand-tag">Bergabunglah dan jadilah<br>bagian dari gerakan hijau</p>
+      <div class="visual">
+        <div class="visual-ico">🌍</div>
+        <p class="visual-txt">Bersama Menjaga Bumi<br>untuk Generasi Mendatang</p>
+      </div>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><div class="bchk">✓</div><span class="btxt">Gratis selamanya</span></div>
+      <div class="benefit"><div class="bchk">✓</div><span class="btxt">Data privat &amp; aman</span></div>
+      <div class="benefit"><div class="bchk">✓</div><span class="btxt">120+ kota tersedia</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="form-box">
+      <h2 class="form-title">Buat Akun BumiJaga</h2>
+      <p class="form-sub">Isi data berikut untuk bergabung dengan komunitas</p>
+      <div class="fg"><label class="fl">Nama Lengkap</label><input class="fi" type="text" placeholder="Masukkan nama lengkap Anda"></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="contoh@email.com"></div>
+      <div class="fg"><label class="fl">Kata Sandi</label><input class="fi" type="password" placeholder="Minimal 8 karakter"></div>
+      <div class="fg"><label class="fl">Konfirmasi Kata Sandi</label><input class="fi" type="password" placeholder="Ulangi kata sandi Anda"></div>
+      <div class="cbrow">
+        <div class="cbbox">✓</div>
+        <span class="cblbl">Saya menyetujui <a href="#">Syarat &amp; Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> BumiJaga</span>
+      </div>
+      <a class="btn-pri" href="dashboard.html">Buat Akun Sekarang</a>
+      <p class="redir">Sudah punya akun? <a href="login.html">Masuk di sini</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
