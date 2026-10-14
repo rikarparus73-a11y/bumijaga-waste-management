@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BumiJaga — Beranda</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#2D6A4F;--sec:#52B788;--acc:#74C69D;--bg:#F0FDF4;--dar:#1B4332;--gra:#6B7280;--lgr:#E5E7EB;--yel:#FBD85F;--whi:#fff;--red:#EF4444;--blue:#3B82F6;--warn:#F59E0B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dar)}
+
+/* ── NAV ── */
+.nav{background:var(--whi);padding:0 56px;height:70px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.06);position:sticky;top:0;z-index:200}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-icon{width:36px;height:36px;background:var(--pri);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--whi);font-weight:700;font-size:13px;flex-shrink:0}
+.nav-name{font-weight:700;font-size:20px;color:var(--pri)}
+.nav-links{display:flex;gap:36px}
+.nav-links a{text-decoration:none;color:var(--dar);font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--sec)}
+.nav-act{display:flex;gap:10px;align-items:center}
+.btn-out{padding:8px 20px;border:1.5px solid var(--pri);background:transparent;color:var(--pri);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;transition:all .2s}
+.btn-out:hover{background:var(--pri);color:var(--whi)}
+.btn-fil{padding:8px 20px;background:var(--pri);color:var(--whi);border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;transition:background .2s}
+.btn-fil:hover{background:var(--dar)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--dar);border-radius:2px;transition:all .3s}
+.nav-mobile{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
+.nav-mobile.open{display:block}
+.nav-mobile-menu{background:var(--whi);width:80%;max-width:300px;height:100%;padding:32px 24px;display:flex;flex-direction:column;gap:8px}
+.nav-mobile-menu a{text-decoration:none;color:var(--dar);font-size:16px;font-weight:500;padding:12px 0;border-bottom:1px solid var(--lgr)}
+.nav-mobile-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--gra);align-self:flex-end;margin-bottom:16px}
+
+/* ── HERO ── */
+.hero{background:var(--pri);padding:72px 56px;position:relative;overflow:hidden;display:flex;align-items:center;gap:64px;min-height:460px}
+.hero::before{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:var(--sec);opacity:.12;top:-90px;left:-90px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:var(--acc);opacity:.1;bottom:-60px;right:200px;pointer-events:none}
+.hero-c{flex:1;z-index:1;max-width:600px}
+.hero-h{font-size:50px;font-weight:700;color:var(--whi);line-height:1.14}
+.hero-h span{color:var(--yel)}
+.hero-sub{margin-top:16px;color:rgba(255,255,255,.82);font-size:16px;line-height:1.75}
+.hero-btns{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.hbtn-p{padding:14px 28px;background:var(--yel);color:var(--dar);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;text-decoration:none;display:inline-block;transition:opacity .2s}
+.hbtn-p:hover{opacity:.88}
+.hbtn-s{padding:14px 28px;background:rgba(255,255,255,.1);color:var(--whi);border:1px solid rgba(255,255,255,.3);border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;display:inline-block;text-decoration:none;transition:background .2s}
+.hbtn-s:hover{background:rgba(255,255,255,.2)}
+.hero-vis{flex:0 0 420px;z-index:1}
+.hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:48px 40px;text-align:center}
+.hero-card-ico{font-size:72px}
+.hero-card-txt{color:rgba(255,255,255,.75);font-size:14px;margin-top:14px;line-height:1.6}
+
+/* ── STATS ── */
+.statsbar{background:var(--whi);padding:28px 56px;display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--lgr)}
+.st-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.st-val{font-size:32px;font-weight:700;color:var(--pri);min-width:80px;text-align:center}
+.st-lbl{font-size:13px;color:var(--gra)}
+
+/* ── FEATURES ── */
+.feats{padding:64px 56px;background:var(--bg)}
+.sec-title{text-align:center;font-size:24px;font-weight:700;color:var(--dar);margin-bottom:44px}
+.feats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.feat-card{background:var(--whi);border-radius:16px;padding:32px 24px;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .3s,box-shadow .3s}
+.feat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px}
+.feat-card:nth-child(1)::before{background:var(--sec)}
+.feat-card:nth-child(2)::before{background:var(--acc)}
+.feat-card:nth-child(3)::before{background:var(--pri)}
+.feat-ico{font-size:32px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;color:var(--dar);margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--gra);line-height:1.75}
+
+/* ══ DOM 2: SCROLL REVEAL ══ */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .6s ease,transform .6s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .6s ease,transform .6s ease}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.delay-1{transition-delay:.1s}
+.delay-2{transition-delay:.2s}
+.delay-3{transition-delay:.3s}
+
+/* ══ DOM 3: NEWSLETTER SECTION ══ */
+.newsletter{background:var(--pri);padding:64px 56px;position:relative;overflow:hidden;text-align:center}
+.newsletter::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:var(--sec);opacity:.1;top:-80px;right:-60px;pointer-events:none}
+.nl-title{font-size:26px;font-weight:700;color:var(--whi);margin-bottom:10px}
+.nl-sub{color:rgba(255,255,255,.75);font-size:15px;margin-bottom:32px}
+.nl-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.nl-input{padding:13px 20px;border:none;border-radius:10px;font-size:14px;font-family:'Poppins',sans-serif;width:320px;outline:none;background:rgba(255,255,255,.95);color:var(--dar)}
+.nl-input::placeholder{color:#9CA3AF}
+.nl-input:focus{box-shadow:0 0 0 3px rgba(251,216,95,.5)}
+.nl-btn{padding:13px 28px;background:var(--yel);color:var(--dar);border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:opacity .2s}
+.nl-btn:hover{opacity:.88}
+.nl-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:36px;margin-top:4px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:var(--whi);padding:6px 14px;border-radius:20px;font-size:13px;animation:chipIn .3s ease}
+@keyframes chipIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.chip-close{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:14px;line-height:1;padding:0;display:flex;align-items:center;transition:color .2s}
+.chip-close:hover{color:var(--whi)}
+.nl-count{color:rgba(255,255,255,.65);font-size:13px;margin-top:12px}
+
+/* ── FOOTER ── */
+footer{background:var(--dar);color:rgba(255,255,255,.65);text-align:center;padding:24px;font-size:13px}
+footer span{color:var(--sec)}
+
+/* ══ TOAST / SNACKBAR ══ */
+#toastContainer{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:var(--whi);box-shadow:0 4px 24px rgba(0,0,0,.15);min-width:280px;max-width:380px;pointer-events:all;transform:translateX(calc(100% + 40px));transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:0;border-left:4px solid var(--sec)}
+.toast.show{transform:translateX(0);opacity:1}
+.toast.hide{transform:translateX(calc(100% + 40px));opacity:0}
+.toast-success{border-left-color:var(--sec)}
+.toast-error{border-left-color:var(--red)}
+.toast-info{border-left-color:var(--blue)}
+.toast-warning{border-left-color:var(--warn)}
+.toast-icon{font-size:18px;flex-shrink:0}
+.toast-msg{flex:1;font-size:13px;font-weight:500;color:var(--dar);line-height:1.4}
+.toast-close{background:none;border:none;color:var(--gra);cursor:pointer;font-size:16px;padding:0;display:flex;align-items:center;flex-shrink:0;transition:color .2s}
+.toast-close:hover{color:var(--dar)}
+.toast-progress{position:absolute;bottom:0;left:4px;right:0;height:3px;border-radius:0 0 12px 0;animation:progress linear forwards}
+@keyframes progress{from{width:100%}to{width:0}}
+.toast{position:relative;overflow:hidden}
+
+/* ── BACK TO TOP ── */
+#backToTop{position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:var(--pri);color:var(--whi);border:none;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(45,106,79,.4);opacity:0;transform:translateY(12px);transition:opacity .3s,transform .3s;z-index:500;pointer-events:none}
+#backToTop.visible{opacity:1;transform:translateY(0);pointer-events:all}
+
+/* ══════════════════════════════════
+   RESPONSIVE — max-width: 768px
+══════════════════════════════════ */
+@media (max-width: 768px){
+  .nav{padding:0 20px}
+  .nav-links,.nav-act{display:none}
+  .hamburger{display:flex}
+  .hero{flex-direction:column;padding:40px 20px;min-height:auto;gap:32px}
+  .hero-h{font-size:32px}
+  .hero-sub{font-size:14px}
+  .hero-vis{display:none}
+  .hero-btns{flex-direction:column;gap:12px}
+  .hbtn-p,.hbtn-s{text-align:center}
+  .statsbar{grid-template-columns:1fr;padding:20px;gap:20px}
+  .st-item{flex-direction:row;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--lgr)}
+  .st-item:last-child{border-bottom:none}
+  .feats{padding:40px 20px}
+  .feats-grid{grid-template-columns:1fr}
+  .newsletter{padding:48px 24px}
+  .nl-input{width:100%}
+  .nl-form{flex-direction:column;align-items:stretch}
+  #toastContainer{right:12px;left:12px;bottom:16px}
+  .toast{min-width:auto;max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
+<!-- Back to Top -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Kembali ke atas">↑</button>
+
+<!-- Nav -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-icon">BJ</div>
+    <span class="nav-name">BumiJaga</span>
+  </a>
+  <div class="nav-links">
+    <a href="#">Beranda</a><a href="#">Fitur</a><a href="#">Tentang</a><a href="#">Kontak</a>
+  </div>
+  <div class="nav-act">
+    <a class="btn-out" href="login.html">Masuk</a>
+    <a class="btn-fil" href="register.html">Daftar Gratis</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mobileNav').classList.add('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="nav-mobile" id="mobileNav" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="nav-mobile-menu">
+    <button class="nav-mobile-close" onclick="document.getElementById('mobileNav').classList.remove('open')">✕</button>
+    <a href="#">Beranda</a>
+    <a href="#">Fitur</a>
+    <a href="#">Tentang</a>
+    <a href="#">Kontak</a>
+    <a href="login.html" style="color:var(--pri);font-weight:600">Masuk</a>
+    <a href="register.html" style="color:var(--pri);font-weight:600">Daftar Gratis</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-c reveal-left">
+    <h1 class="hero-h">Kelola Limbah,<br><span>Jaga Bumi Kita</span></h1>
+    <p class="hero-sub">Platform digital terintegrasi untuk pemantauan, pelaporan, dan edukasi pengelolaan limbah lingkungan di seluruh Indonesia.</p>
+    <div class="hero-btns">
+      <a class="hbtn-p" href="register.html">Mulai Sekarang</a>
+      <a class="hbtn-s" href="#" onclick="showToast('Fitur ini akan segera tersedia!','info');return false">Pelajari Lebih</a>
+    </div>
+  </div>
+  <div class="hero-vis reveal-right">
+    <div class="hero-card">
+      <div class="hero-card-ico">🌿</div>
+      <p class="hero-card-txt">Sistem Pengelolaan Limbah Terpadu<br>untuk Indonesia yang Lebih Bersih</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOM 1: STATS COUNTER ══ -->
+<div class="statsbar">
+  <div class="st-item">
+    <div class="st-val" id="ctr-limbah">0+</div>
+    <div class="st-lbl">Ton Limbah Terkelola</div>
+  </div>
+  <div class="st-item">
+    <div class="st-val" id="ctr-pengguna">0+</div>
+    <div class="st-lbl">Pengguna Aktif</div>
+  </div>
+  <div class="st-item">
+    <div class="st-val" id="ctr-kota">0+</div>
+    <div class="st-lbl">Kota Terjangkau</div>
+  </div>
+</div>
+
+<!-- ══ DOM 2: SCROLL REVEAL FEATURES ══ -->
+<section class="feats">
+  <h2 class="sec-title reveal">Fitur Unggulan Platform</h2>
+  <div class="feats-grid">
+    <div class="feat-card reveal delay-1">
+      <div class="feat-ico">📊</div>
+      <h3 class="feat-title">Monitor Limbah</h3>
+      <p class="feat-desc">Pantau data limbah secara real-time di wilayah Anda. Laporan harian, mingguan, dan bulanan tersedia otomatis.</p>
+    </div>
+    <div class="feat-card reveal delay-2">
+      <div class="feat-ico">📚</div>
+      <h3 class="feat-title">Edukasi Hijau</h3>
+      <p class="feat-desc">Akses materi interaktif tentang pengelolaan lingkungan hidup. Tingkatkan kesadaran ekologi komunitas Anda.</p>
+    </div>
+    <div class="feat-card reveal delay-3">
+      <div class="feat-ico">📝</div>
+      <h3 class="feat-title">Lapor Masalah</h3>
+      <p class="feat-desc">Laporkan permasalahan limbah di sekitar Anda. Tim respon siap menindaklanjuti setiap laporan masuk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOM 3: NEWSLETTER SUBSCRIPTION ══ -->
+<section class="newsletter reveal">
+  <h2 class="nl-title">📧 Dapatkan Update Terbaru</h2>
+  <p class="nl-sub">Daftar newsletter BumiJaga dan terima informasi terbaru seputar pengelolaan limbah lingkungan.</p>
+  <div class="nl-form">
+    <input type="email" class="nl-input" id="nlEmail" placeholder="Masukkan alamat email Anda" onkeydown="if(event.key==='Enter')subscribeNewsletter()">
+    <button class="nl-btn" onclick="subscribeNewsletter()">Daftar Sekarang</button>
+  </div>
+  <div class="nl-chips" id="nlChips"></div>
+  <div class="nl-count" id="nlCount" style="display:none"></div>
+</section>
+
+<footer>
+  <p>© 2025 <span>BumiJaga</span> — Sistem Cerdas Pengelolaan Limbah · Richardo Mario Antonius Parus · NIM 2518046</p>
+</footer>
+
+<script>
+/* ════════════════════════════════════════
+   TOAST / SNACKBAR SYSTEM
+════════════════════════════════════════ */
+const TOAST_ICONS = {
+  success: '✅',
+  error:   '❌',
+  info:    'ℹ️',
+  warning: '⚠️'
+};
+
+const TOAST_DURATION = {
+  success: 3500,
+  error:   5000,
+  info:    3000,
+  warning: 4000
+};
+
+function showToast(message, type = 'success', duration) {
+  const container = document.getElementById('toastContainer');
+  const dur = duration || TOAST_DURATION[type] || 3500;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.innerHTML =
+    '<span class="toast-icon">' + TOAST_ICONS[type] + '</span>' +
+    '<span class="toast-msg">' + message + '</span>' +
+    '<button class="toast-close" onclick="removeToast(this.parentElement)">✕</button>' +
+    '<div class="toast-progress" style="background:' + getToastColor(type) + ';animation-duration:' + dur + 'ms"></div>';
+
+  container.appendChild(toast);
+
+  // Trigger animasi masuk
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+
+  // Auto-dismiss
+  const timer = setTimeout(() => removeToast(toast), dur);
+  toast._timer = timer;
+}
+
+function removeToast(toast) {
+  if (!toast || !toast.parentElement) return;
+  clearTimeout(toast._timer);
+  toast.classList.add('hide');
+  toast.classList.remove('show');
+  setTimeout(() => { if (toast.parentElement) toast.remove(); }, 380);
+}
+
+function getToastColor(type) {
+  const colors = { success:'#52B788', error:'#EF4444', info:'#3B82F6', warning:'#F59E0B' };
+  return colors[type] || colors.success;
+}
+
+/* ════════════════════════════════════════
+   DOM 1 — COUNTER ANIMATION
+   Mengubah textContent elemen secara
+   bertahap menggunakan requestAnimationFrame
+════════════════════════════════════════ */
+const counters = [
+  { id: 'ctr-limbah',  target: 15000, suffix: '+' },
+  { id: 'ctr-pengguna',target: 48000, suffix: '+' },
+  { id: 'ctr-kota',    target: 120,   suffix: '+'  },
+];
+
+function animateCounter(el, target, suffix, duration = 2000) {
+  let startTime = null;
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+
+    // Easing: easeOutCubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+
+    // ★ DOM Manipulation 1: update textContent elemen counter
+    el.textContent = current.toLocaleString('id-ID') + suffix;
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = target.toLocaleString('id-ID') + suffix;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+// Jalankan counter saat statsbar masuk viewport
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      counters.forEach(c => {
+        const el = document.getElementById(c.id);
+        if (el) animateCounter(el, c.target, c.suffix);
+      });
+      statsObserver.disconnect(); // hanya jalankan sekali
+    }
+  });
+}, { threshold: 0.3 });
+
+const statsbar = document.querySelector('.statsbar');
+if (statsbar) statsObserver.observe(statsbar);
+
+/* ════════════════════════════════════════
+   DOM 2 — SCROLL REVEAL
+   Menambahkan class 'visible' ke elemen
+   saat elemen masuk viewport (IntersectionObserver)
+════════════════════════════════════════ */
+function initScrollReveal() {
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // ★ DOM Manipulation 2: tambah class 'visible' ke elemen
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+}
+initScrollReveal();
+
+/* ════════════════════════════════════════
+   DOM 3 — NEWSLETTER SUBSCRIPTION
+   Membuat dan menyisipkan elemen chip
+   ke dalam DOM saat pengguna subscribe
+════════════════════════════════════════ */
+const subscribers = [];
+
+function subscribeNewsletter() {
+  const input   = document.getElementById('nlEmail');
+  const chipsEl = document.getElementById('nlChips');
+  const countEl = document.getElementById('nlCount');
+  const email   = input.value.trim();
+
+  // Validasi format email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email) {
+    showToast('Email tidak boleh kosong.', 'warning');
+    input.focus();
+    return;
+  }
+  if (!emailRegex.test(email)) {
+    showToast('Format email tidak valid.', 'error');
+    input.focus();
+    return;
+  }
+  if (subscribers.includes(email.toLowerCase())) {
+    showToast('Email ini sudah terdaftar!', 'info');
+    input.value = '';
+    return;
+  }
+
+  // Simpan ke array
+  subscribers.push(email.toLowerCase());
+
+  // ★ DOM Manipulation 3a: buat elemen chip baru
+  const chip = document.createElement('div');
+  chip.className = 'chip';
+  chip.dataset.email = email.toLowerCase();
+  chip.innerHTML =
+    '<span>📧 ' + email + '</span>' +
+    '<button class="chip-close" onclick="removeSubscriber(this)" title="Hapus">✕</button>';
+
+  // ★ DOM Manipulation 3b: sisipkan chip ke dalam DOM
+  chipsEl.appendChild(chip);
+
+  // ★ DOM Manipulation 3c: update teks counter subscriber
+  countEl.style.display = 'block';
+  countEl.textContent   = subscribers.length + ' orang telah berlangganan newsletter BumiJaga';
+
+  // Reset input
+  input.value = '';
+  input.focus();
+
+  showToast('🎉 Berhasil mendaftar! Selamat datang di komunitas BumiJaga.', 'success');
+}
+
+function removeSubscriber(btn) {
+  const chip    = btn.parentElement;
+  const email   = chip.dataset.email;
+  const countEl = document.getElementById('nlCount');
+
+  // Hapus dari array
+  const idx = subscribers.indexOf(email);
+  if (idx > -1) subscribers.splice(idx, 1);
+
+  // Animasi keluar sebelum hapus dari DOM
+  chip.style.opacity  = '0';
+  chip.style.transform = 'scale(0.8)';
+  chip.style.transition = 'all .3s';
+  setTimeout(() => chip.remove(), 300);
+
+  // Update counter
+  if (subscribers.length === 0) {
+    countEl.style.display = 'none';
+  } else {
+    countEl.textContent = subscribers.length + ' orang telah berlangganan newsletter BumiJaga';
+  }
+  showToast('Email berhasil dihapus dari daftar.', 'info');
+}
+
+/* ════════════════════════════════════════
+   BACK TO TOP BUTTON
+   Tampil setelah scroll 300px
+════════════════════════════════════════ */
+const backBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backBtn.classList.add('visible');
+  } else {
+    backBtn.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>
